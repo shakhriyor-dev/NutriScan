@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10120f">
+  <meta name="description" content="NutriScan — mahsulot shtrix-kodini skanerlang va oziqaviy qiymatlarini biling.">
+  <title>NutriScan — Mahsulot tarkibini bilib oling</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="NutriScan bosh sahifa">
+      <span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 24V8m4 16V8m4 16V8m5 16V8m4 16V8M4 11h24M4 21h24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+      <span>nutri<span>scan</span></span>
+    </a>
+    <div class="topbar-right">
+      <span class="privacy-pill"><span class="status-dot"></span> Maxfiylikka e’tibor</span>
+      <button class="icon-button" id="themeToggle" aria-label="Rang mavzusini almashtirish" title="Mavzuni almashtirish">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.64 5.64l1.42 1.42m9.88 9.88 1.42 1.42m0-12.72-1.42 1.42m-9.88 9.88-1.42 1.42M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> ODDIY SKANERLASH. ONGli TANLOV.</div>
+        <h1>Mahsulot ichida<br>nima borligini <span class="accent-word">biling.</span></h1>
+        <p class="hero-description">Shtrix-kodni skanerlang. Kaloriya, oqsil, yog‘ va boshqa oziqaviy ma’lumotlarni bir joyda ko‘ring.</p>
+        <div class="hero-trust">
+          <span><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Tezkor qidiruv</span>
+          <span><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Ochiq mahsulotlar bazasi</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="hero-glow"></div>
+        <div class="nutrition-float float-top"><span class="float-icon leaf-icon">✳</span><span><b>Ongli tanlov</b><small>Har bir mahsulotda</small></span></div>
+        <div class="product-art">
+          <div class="art-cap"></div><div class="art-label"><span class="art-mini">FRESH / DAILY</span><span class="art-leaf">✳</span><strong>good<br>inside.</strong><small>PLANT BASED<br>NOURISHMENT</small></div>
+          <div class="art-bottom"></div>
+        </div>
+        <div class="nutrition-float float-bottom"><span class="energy-ring">↗</span><span><b>Bilim — kuch</b><small>Tarkibni tushuning</small></span></div>
+        <div class="spark spark-one">✳</div><div class="spark spark-two">✦</div>
+      </div>
+    </section>
+
+    <section class="workspace" id="workspace">
+      <div class="section-heading">
+        <div><div class="section-kicker">NUTRITION SCANNER</div><h2>Mahsulotni tekshiring</h2></div>
+        <span class="live-label"><span class="live-dot"></span> Jonli qidiruv</span>
+      </div>
+
+      <div class="mode-tabs" role="tablist" aria-label="Skanerlash usuli">
+        <button class="mode-tab active" id="cameraTab" role="tab" aria-selected="true"><span class="tab-icon">⌗</span> Kamera bilan</button>
+        <button class="mode-tab" id="manualTab" role="tab" aria-selected="false"><span class="tab-icon">#</span> Kodni kiritish</button>
+      </div>
+
+      <div class="scanner-layout">
+        <section class="scan-card panel">
+          <div class="panel-topline"><span class="step-number">01</span><span class="panel-label" id="scannerTitle">SHtrix-kodni skanerlang</span><span class="panel-status" id="modeBadge">KAMERA</span></div>
+          <div class="camera-stage" id="cameraStage">
+            <div class="camera-placeholder" id="cameraPlaceholder">
+              <div class="scan-illustration">
+                <div class="scan-frame"><span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span><div class="barcode-graphic"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="scan-line"></div></div>
+              </div>
+              <strong>Kamerani ishga tushiring</strong>
+              <p>Shtrix-kodni ramka ichiga joylashtiring.</p>
+            </div>
+            <video id="cameraVideo" playsinline muted></video>
+            <div class="video-overlay" id="videoOverlay"><span class="viewfinder"></span><span class="camera-hint">Shtrix-kodni ramka ichida tuting</span></div>
+          </div>
+          <div class="camera-controls" id="cameraControls">
+            <button class="button button-primary button-wide" id="startCamera"><svg viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h7A2.5 2.5 0 0 1 16 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 4 16.5v-9ZM16 10l4-2v8l-4-2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg> Kamerani ochish</button>
+            <button class="button button-secondary button-wide hidden" id="stopCamera">Kamerani to‘xtatish</button>
+          </div>
+          <div class="manual-entry hidden" id="manualEntry">
+            <label for="barcodeInput">Mahsulot shtrix-kodi</label>
+            <div class="input-row"><input id="barcodeInput" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="Masalan, 3017624010701"><button class="button button-primary" id="lookupButton">Qidirish <span>→</span></button></div>
+            <p class="field-hint">8–14 xonali raqamni kiriting. Kod odatda qadoq orqasida bo‘ladi.</p>
+          </div>
+          <div class="scan-feedback" id="scanFeedback" role="status" aria-live="polite"><span class="feedback-icon">i</span><span id="feedbackText">Boshlash uchun kamerani oching yoki kodni qo‘lda kiriting.</span></div>
+        </section>
+
+        <section class="result-card panel" aria-live="polite">
+          <div class="panel-topline"><span class="step-number">02</span><span class="panel-label">MAHSULOT MA’LUMOTLARI</span><span class="result-state" id="resultState">KUTILMOQDA</span></div>
+          <div id="emptyResult" class="empty-result">
+            <div class="empty-icon"><svg viewBox="0 0 48 48"><path d="M10 15.5A5.5 5.5 0 0 1 15.5 10h17a5.5 5.5 0 0 1 5.5 5.5v17a5.5 5.5 0 0 1-5.5 5.5h-17a5.5 5.5 0 0 1-5.5-5.5v-17Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 19v10m4-10v10m4-10v10m5-10v10m4-10v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <h3>Mahsulot shu yerda ko‘rinadi</h3>
+            <p>Shtrix-kodni skanerlaganingizdan keyin oziqaviy qiymatlar va mahsulot tafsilotlari chiqadi.</p>
+            <div class="empty-checks"><span><i>✓</i> Kaloriya</span><span><i>✓</i> Makroelementlar</span><span><i>✓</i> Tarkib</span></div>
+          </div>
+          <div id="loadingResult" class="loading-result hidden"><div class="loader"></div><strong>Mahsulot qidirilmoqda...</strong><span>Ma’lumotlar bazasi tekshirilmoqda</span></div>
+          <div id="productResult" class="product-result hidden">
+            <div class="product-summary">
+              <div class="product-image-wrap"><img id="productImage" alt="Mahsulot rasmi" class="product-image hidden"><div id="productImageFallback" class="product-image-fallback">✳</div></div>
+              <div class="product-title-wrap"><span class="product-found"><i></i> MAHSULOT TOPILDI</span><h3 id="productName">Mahsulot nomi</h3><p id="productBrand">Brend</p><span class="barcode-label" id="productBarcode"></span></div>
+            </div>
+            <div class="calorie-banner"><div><span>ENERGIYA QIYMATI</span><small>100 g uchun</small></div><div class="calorie-value"><strong id="caloriesValue">—</strong><span>kcal</span></div><div class="calorie-symbol">✳</div></div>
+            <div class="nutrition-heading"><h4>Oziqaviy qiymati</h4><span>100 g uchun</span></div>
+            <div class="macro-grid">
+              <div class="macro-card protein"><span class="macro-dot"></span><span class="macro-name">Oqsil</span><strong id="proteinValue">—</strong><small>gramm</small><div class="macro-track"><i id="proteinBar"></i></div></div>
+              <div class="macro-card fat"><span class="macro-dot"></span><span class="macro-name">Yog‘</span><strong id="fatValue">—</strong><small>gramm</small><div class="macro-track"><i id="fatBar"></i></div></div>
+              <div class="macro-card carbs"><span class="macro-dot"></span><span class="macro-name">Uglevod</span><strong id="carbsValue">—</strong><small>gramm</small><div class="macro-track"><i id="carbsBar"></i></div></div>
+              <div class="macro-card fiber"><span class="macro-dot"></span><span class="macro-name">Kletchatka</span><strong id="fiberValue">—</strong><small>gramm</small><div class="macro-track"><i id="fiberBar"></i></div></div>
+            </div>
+            <div class="details-list">
+              <div><span>To‘yingan yog‘</span><strong id="saturatedValue">—</strong></div>
+              <div><span>Shakar</span><strong id="sugarValue">—</strong></div>
+              <div><span>Tuz</span><strong id="saltValue">—</strong></div>
+              <div><span>Netto og‘irligi</span><strong id="quantityValue">—</strong></div>
+            </div>
+            <div class="ingredients-block" id="ingredientsBlock"><h4>Tarkibi</h4><p id="ingredientsValue">Ma’lumot mavjud emas.</p></div>
+            <div class="source-note">Ma’lumot manbasi: <a href="https://world.openfoodfacts.org/" target="_blank" rel="noreferrer">Open Food Facts ↗</a><span id="nutritionNote"> Qiymatlar ishlab chiqaruvchi ma’lumotlariga bog‘liq.</span></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="history-section">
+      <div class="history-heading"><div><div class="section-kicker">OXIRGI FAOLIYAT</div><h2>Skanerlangan mahsulotlar</h2></div><button id="clearHistory" class="text-button">Tarixni tozalash ↗</button></div>
+      <div class="history-list" id="historyList"><div class="history-empty"><span>◷</span> Skanerlagan mahsulotlaringiz shu yerda saqlanadi.</div></div>
+    </section>
+
+    <footer class="footer"><a class="brand footer-brand" href="/"><span class="brand-mark small-mark">✳</span><span>nutri<span>scan</span></span></a><span>Ongli tanlovlar shu yerdan boshlanadi.</span><a href="https://world.openfoodfacts.org/" target="_blank" rel="noreferrer">Open Food Facts asosida</a></footer>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://unpkg.com/@zxing/browser@0.1.5/umd/index.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
