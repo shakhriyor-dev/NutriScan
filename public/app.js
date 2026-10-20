@@ -55,7 +55,7 @@
 
   function hideCamera() {
     if (state.reader) {
-      try { state.reader.reset(); } catch (_) {}
+      try { state.reader.reset(); } catch (_) { }
       state.reader = null;
     }
     if (state.stream) {
@@ -324,7 +324,7 @@
       calories: product.nutriments?.["energy-kcal_100g"] ?? null,
       time: Date.now()
     });
-    try { localStorage.setItem("nutriscan-history", JSON.stringify(history.slice(0, 9))); } catch (_) {}
+    try { localStorage.setItem("nutriscan-history", JSON.stringify(history.slice(0, 9))); } catch (_) { }
     renderHistory();
   }
 
@@ -398,13 +398,13 @@
     $("barcodeInput").value = $("barcodeInput").value.replace(/\D/g, "").slice(0, 14);
   });
   $("clearHistory").addEventListener("click", () => {
-    try { localStorage.removeItem("nutriscan-history"); } catch (_) {}
+    try { localStorage.removeItem("nutriscan-history"); } catch (_) { }
     renderHistory();
     toast("Skanerlash tarixi tozalandi");
   });
   $("themeToggle").addEventListener("click", () => {
     const light = document.documentElement.classList.toggle("light");
-    try { localStorage.setItem("nutriscan-theme", light ? "light" : "dark"); } catch (_) {}
+    try { localStorage.setItem("nutriscan-theme", light ? "light" : "dark"); } catch (_) { }
   });
 
   if (socket) {
@@ -424,7 +424,7 @@
 
   try {
     if (localStorage.getItem("nutriscan-theme") === "light") document.documentElement.classList.add("light");
-  } catch (_) {}
+  } catch (_) { }
 
   if (state.isMobile) showMobileMode();
   else showDesktopMode();
