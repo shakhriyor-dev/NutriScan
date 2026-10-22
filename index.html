@@ -378,8 +378,8 @@
 <body>
     <main>
         <h1>Tarkibi</h1>
-        <p class="lead">Mahsulot QR yoki shtrix-kodi tagidagi raqamlarni kiriting — oqsil, yog' va uglevod miqdorini bir
-            zumda ko'ring.</p>
+        <p class="lead">Mahsulot QR yoki shtrix-kodi tagidagi raqamlarni kiriting — nomi, rasmi va tarkibini ko'ring.
+            Oziq-ovqat bo'lsa, oqsil, yog' va uglevod ham chiqadi.</p>
 
         <form class="scan" id="form" autocomplete="off">
             <div class="field">
@@ -415,18 +415,30 @@
             if (loc) { current = loc; return render(100); }
             show(`<div class="state">Ma'lumot qidirilmoqda…</div>`);
             try {
-                const url = `https://world.openfoodfacts.org/api/v2/product/${code}.json?fields=product_name,generic_name,brands,quantity,image_front_small_url,image_front_url,nutriments`;
-                const res = await fetch(url);
-                const data = await res.json();
-                if (data.status !== 1 || !data.product) throw new Error('notfound');
+                const sources = [
+                    { host: 'openfoodfacts', type: 'Oziq-ovqat', food: true },
+                    { host: 'openbeautyfacts', type: 'Kosmetika va gigiyena' },
+                    { host: 'openproductsfacts', type: 'Boshqa mahsulot' },
+                    { host: 'openpetfoodfacts', type: 'Uy hayvonlari ozuqasi' }
+                ];
+                let data = null, src = null, fails = 0;
+                for (const s of sources) {
+                    try {
+                        const r = await fetch(`https://world.${s.host}.org/api/v2/product/${code}.json?fields=product_name,generic_name,brands,quantity,categories,ingredients_text,image_front_small_url,image_front_url,nutriments`);
+                        const d = await r.json();
+                        if (d.status === 1 && d.product) { data = d; src = s; break; }
+                    } catch (e) { fails++; }
+                }
+                if (!data) throw new Error(fails === sources.length ? 'net' : 'notfound');
                 const n = data.product.nutriments || {};
                 const get = k => Number(n[k + '_100g']);
                 const p = {
                     name: data.product.product_name || data.product.generic_name || 'Nomi kiritilmagan mahsulot', brand: data.product.brands || '', qty: data.product.quantity || '',
                     img: data.product.image_front_small_url || data.product.image_front_url || '', protein: get('proteins'), fat: get('fat'), carb: get('carbohydrates'),
-                    kcal: Number(n['energy-kcal_100g'])
+                    kcal: Number(n['energy-kcal_100g']), type: src.type, food: !!src.food,
+                    ingredients: data.product.ingredients_text || '', category: (data.product.categories || '').split(',').slice(0, 3).join(', ')
                 };
-                if ([p.protein, p.fat, p.carb].some(isNaN)) return showNoData(p);
+                if (!p.food || [p.protein, p.fat, p.carb].some(isNaN)) return showNoData(p);
                 if (isNaN(p.kcal)) p.kcal = Math.round(p.protein * 4 + p.carb * 4 + p.fat * 9);
                 current = p; render(100);
             } catch (err) {
@@ -463,7 +475,9 @@
         function showNoData(p) {
             show(`<article class="card">
     <div class="head">${p.img ? `<img src="${p.img}" alt="">` : ''}<div><h2>${esc(p.name)}</h2><p>${esc([p.brand, p.qty].filter(Boolean).join(' · '))}</p></div></div>
-    <div class="state" style="margin-top:24px">Mahsulot topildi, lekin bazada uning oqsil, yog' va uglevod qiymatlari kiritilmagan. Qadoqdagi tarkib jadvaliga qarang.</div>
+    <div class="state" style="margin-top:24px"><b style="color:var(--ink)">Turi: ${esc(p.type)}</b>${p.category ? `<br>Toifa: ${esc(p.category)}` : ''}
+      ${p.ingredients ? `<br><br><b style="color:var(--ink)">Tarkibi:</b> ${esc(p.ingredients)}` : ''}
+      ${p.food ? `<br><br>Bazada bu mahsulotning oqsil, yog' va uglevod qiymatlari kiritilmagan. Qadoqdagi tarkib jadvaliga qarang.` : ''}</div>
   </article>`);
         }
         const f = x => (Math.round(x * 10) / 10).toString().replace('.', ',');
