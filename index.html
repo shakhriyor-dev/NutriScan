@@ -1,143 +1,448 @@
 <!DOCTYPE html>
 <html lang="uz">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tarkibi — mahsulot kodi bo'yicha oqsil, yog' va uglevod</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#F2F5EF; --surface:#FFFFFF; --ink:#14261F; --muted:#5E6F67; --line:#DCE3DB;
-  --protein:#4F5BD5; --fat:#F0A030; --carb:#E8604C; --accent:#14261F;
-  --font:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;
-}
-@media (prefers-color-scheme:dark){
-  :root{--bg:#0F1A16; --surface:#17261F; --ink:#EAF1EC; --muted:#93A69C; --line:#274037; --accent:#EAF1EC;
-        --protein:#8C96FF; --fat:#FFBB57; --carb:#FF8571;}
-}
-*{box-sizing:border-box;margin:0}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;line-height:1.5;
-  padding:clamp(20px,5vw,64px) 20px;display:flex;justify-content:center}
-main{width:100%;max-width:880px}
-h1{font-size:clamp(2.6rem,8vw,5rem);font-weight:800;letter-spacing:-.04em;line-height:.95}
-.lead{color:var(--muted);margin-top:16px;max-width:46ch;font-size:1.05rem}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tarkibi — mahsulot kodi bo'yicha oqsil, yog' va uglevod</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F2F5EF;
+            --surface: #FFFFFF;
+            --ink: #14261F;
+            --muted: #5E6F67;
+            --line: #DCE3DB;
+            --protein: #4F5BD5;
+            --fat: #F0A030;
+            --carb: #E8604C;
+            --accent: #14261F;
+            --font: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+        }
 
-/* qidiruv: shtrix-kod shaklidagi maydon */
-.scan{margin-top:36px;background:var(--surface);border:2px solid var(--ink);border-radius:20px;padding:18px 20px 14px;
-  display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
-.field{flex:1 1 240px}
-.field label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px}
-.field input{width:100%;border:0;background:transparent;color:var(--ink);font:800 clamp(1.6rem,5vw,2.4rem)/1.1 var(--font);
-  letter-spacing:.14em;outline:none;font-variant-numeric:tabular-nums}
-.field input::placeholder{color:var(--line)}
-.bars{height:26px;margin-top:8px;border-radius:3px;opacity:.9;
-  background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 5px,var(--ink) 5px 6px,transparent 6px 8px,var(--ink) 8px 11px,transparent 11px 12px)}
-button{font:600 1rem var(--font);cursor:pointer;border:0;border-radius:14px;padding:14px 26px;background:var(--ink);color:var(--bg);
-  transition:transform .15s}
-button:hover{transform:translateY(-2px)}
-button:focus-visible,.chip:focus-visible,input:focus-visible{outline:3px solid var(--protein);outline-offset:3px}
-.try{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.9rem}
-.chip{font:500 .9rem var(--font);background:transparent;color:var(--ink);border:1.5px solid var(--line);padding:6px 14px;border-radius:99px}
+        @media (prefers-color-scheme:dark) {
+            :root {
+                --bg: #0F1A16;
+                --surface: #17261F;
+                --ink: #EAF1EC;
+                --muted: #93A69C;
+                --line: #274037;
+                --accent: #EAF1EC;
+                --protein: #8C96FF;
+                --fat: #FFBB57;
+                --carb: #FF8571;
+            }
+        }
 
-/* natija */
-#result{margin-top:36px}
-.state{padding:28px;border:1.5px dashed var(--line);border-radius:20px;color:var(--muted)}
-.state.err{border-color:var(--carb);color:var(--ink)}
-.card{background:var(--surface);border:1.5px solid var(--line);border-radius:28px;padding:clamp(20px,4vw,36px);animation:rise .5s cubic-bezier(.2,.8,.2,1)}
-@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.head{display:flex;gap:20px;align-items:center}
-.head img{width:92px;height:92px;object-fit:contain;border-radius:18px;background:#fff;border:1px solid var(--line)}
-.head h2{font-size:clamp(1.4rem,4vw,2rem);letter-spacing:-.02em;line-height:1.15}
-.head p{color:var(--muted)}
-.kcal{margin-top:28px;display:flex;align-items:baseline;gap:10px}
-.kcal b{font-size:clamp(3.4rem,12vw,6rem);font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
-.kcal span{color:var(--muted)}
-.plate{margin-top:22px;display:flex;height:22px;border-radius:99px;overflow:hidden;background:var(--line);gap:3px}
-.plate i{display:block;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
-.macros{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.m{border-radius:20px;padding:18px;border:1.5px solid var(--line);border-top:6px solid var(--c)}
-.m .v{font-size:clamp(1.8rem,6vw,2.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
-.m .v small{font-size:1rem;font-weight:600;color:var(--muted);margin-left:2px}
-.m .n{font-weight:600;margin-top:4px}
-.m .p{color:var(--muted);font-size:.88rem}
-.portion{margin-top:28px;padding-top:22px;border-top:1.5px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.portion input[type=range]{flex:1 1 200px;accent-color:var(--protein)}
-.portion output{font-weight:800;font-size:1.3rem;min-width:84px;font-variant-numeric:tabular-nums}
-.note{margin-top:14px;color:var(--muted);font-size:.8rem}
-.man .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
-.man label{font-size:.85rem;color:var(--muted)}
-.man input{display:block;width:100%;margin-top:4px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:500 1rem var(--font)}
-@media (max-width:560px){.macros{grid-template-columns:1fr}.m{display:flex;justify-content:space-between;align-items:center}.head img{width:72px;height:72px}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
+        * {
+            box-sizing: border-box;
+            margin: 0
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+            line-height: 1.5;
+            padding: clamp(20px, 5vw, 64px) 20px;
+            display: flex;
+            justify-content: center
+        }
+
+        main {
+            width: 100%;
+            max-width: 880px
+        }
+
+        h1 {
+            font-size: clamp(2.6rem, 8vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -.04em;
+            line-height: .95
+        }
+
+        .lead {
+            color: var(--muted);
+            margin-top: 16px;
+            max-width: 46ch;
+            font-size: 1.05rem
+        }
+
+        /* qidiruv: shtrix-kod shaklidagi maydon */
+        .scan {
+            margin-top: 36px;
+            background: var(--surface);
+            border: 2px solid var(--ink);
+            border-radius: 20px;
+            padding: 18px 20px 14px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-end;
+            flex-wrap: wrap
+        }
+
+        .field {
+            flex: 1 1 240px
+        }
+
+        .field label {
+            display: block;
+            font-size: .85rem;
+            color: var(--muted);
+            margin-bottom: 4px
+        }
+
+        .field input {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: var(--ink);
+            font: 800 clamp(1.6rem, 5vw, 2.4rem)/1.1 var(--font);
+            letter-spacing: .14em;
+            outline: none;
+            font-variant-numeric: tabular-nums
+        }
+
+        .field input::placeholder {
+            color: var(--line)
+        }
+
+        .bars {
+            height: 26px;
+            margin-top: 8px;
+            border-radius: 3px;
+            opacity: .9;
+            background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 5px, var(--ink) 5px 6px, transparent 6px 8px, var(--ink) 8px 11px, transparent 11px 12px)
+        }
+
+        button {
+            font: 600 1rem var(--font);
+            cursor: pointer;
+            border: 0;
+            border-radius: 14px;
+            padding: 14px 26px;
+            background: var(--ink);
+            color: var(--bg);
+            transition: transform .15s
+        }
+
+        button:hover {
+            transform: translateY(-2px)
+        }
+
+        button:focus-visible,
+        .chip:focus-visible,
+        input:focus-visible {
+            outline: 3px solid var(--protein);
+            outline-offset: 3px
+        }
+
+        .try {
+            margin-top: 14px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            color: var(--muted);
+            font-size: .9rem
+        }
+
+        .chip {
+            font: 500 .9rem var(--font);
+            background: transparent;
+            color: var(--ink);
+            border: 1.5px solid var(--line);
+            padding: 6px 14px;
+            border-radius: 99px
+        }
+
+        /* natija */
+        #result {
+            margin-top: 36px
+        }
+
+        .state {
+            padding: 28px;
+            border: 1.5px dashed var(--line);
+            border-radius: 20px;
+            color: var(--muted)
+        }
+
+        .state.err {
+            border-color: var(--carb);
+            color: var(--ink)
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1.5px solid var(--line);
+            border-radius: 28px;
+            padding: clamp(20px, 4vw, 36px);
+            animation: rise .5s cubic-bezier(.2, .8, .2, 1)
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .head {
+            display: flex;
+            gap: 20px;
+            align-items: center
+        }
+
+        .head img {
+            width: 92px;
+            height: 92px;
+            object-fit: contain;
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid var(--line)
+        }
+
+        .head h2 {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            letter-spacing: -.02em;
+            line-height: 1.15
+        }
+
+        .head p {
+            color: var(--muted)
+        }
+
+        .kcal {
+            margin-top: 28px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px
+        }
+
+        .kcal b {
+            font-size: clamp(3.4rem, 12vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -.05em;
+            line-height: 1;
+            font-variant-numeric: tabular-nums
+        }
+
+        .kcal span {
+            color: var(--muted)
+        }
+
+        .plate {
+            margin-top: 22px;
+            display: flex;
+            height: 22px;
+            border-radius: 99px;
+            overflow: hidden;
+            background: var(--line);
+            gap: 3px
+        }
+
+        .plate i {
+            display: block;
+            width: 0;
+            transition: width 1s cubic-bezier(.2, .8, .2, 1)
+        }
+
+        .macros {
+            margin-top: 26px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px
+        }
+
+        .m {
+            border-radius: 20px;
+            padding: 18px;
+            border: 1.5px solid var(--line);
+            border-top: 6px solid var(--c)
+        }
+
+        .m .v {
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -.03em;
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums
+        }
+
+        .m .v small {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--muted);
+            margin-left: 2px
+        }
+
+        .m .n {
+            font-weight: 600;
+            margin-top: 4px
+        }
+
+        .m .p {
+            color: var(--muted);
+            font-size: .88rem
+        }
+
+        .portion {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1.5px solid var(--line);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        .portion input[type=range] {
+            flex: 1 1 200px;
+            accent-color: var(--protein)
+        }
+
+        .portion output {
+            font-weight: 800;
+            font-size: 1.3rem;
+            min-width: 84px;
+            font-variant-numeric: tabular-nums
+        }
+
+        .note {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: .8rem
+        }
+
+        .man .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin: 16px 0
+        }
+
+        .man label {
+            font-size: .85rem;
+            color: var(--muted)
+        }
+
+        .man input {
+            display: block;
+            width: 100%;
+            margin-top: 4px;
+            padding: 10px 12px;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            background: var(--surface);
+            color: var(--ink);
+            font: 500 1rem var(--font)
+        }
+
+        @media (max-width:560px) {
+            .macros {
+                grid-template-columns: 1fr
+            }
+
+            .m {
+                display: flex;
+                justify-content: space-between;
+                align-items: center
+            }
+
+            .head img {
+                width: 72px;
+                height: 72px
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+    </style>
 </head>
+
 <body>
-<main>
-  <h1>Tarkibi</h1>
-  <p class="lead">Mahsulot QR yoki shtrix-kodi tagidagi raqamlarni kiriting — oqsil, yog' va uglevod miqdorini bir zumda ko'ring.</p>
+    <main>
+        <h1>Tarkibi</h1>
+        <p class="lead">Mahsulot QR yoki shtrix-kodi tagidagi raqamlarni kiriting — oqsil, yog' va uglevod miqdorini bir
+            zumda ko'ring.</p>
 
-  <form class="scan" id="form" autocomplete="off">
-    <div class="field">
-      <label for="code">Kod raqami</label>
-      <input id="code" inputmode="numeric" maxlength="14" placeholder="5449000000996" aria-describedby="hint">
-      <div class="bars" aria-hidden="true"></div>
-    </div>
-    <button type="submit">Tahlil qilish</button>
-  </form>
-  <div class="try" id="hint">Sinab ko'ring:
-    <button type="button" class="chip" data-c="5449000000996">Coca-Cola</button>
-    <button type="button" class="chip" data-c="3017620422003">Nutella</button>
-    <button type="button" class="chip" data-c="8076809513753">Barilla pasta</button>
-  </div>
+        <form class="scan" id="form" autocomplete="off">
+            <div class="field">
+                <label for="code">Kod raqami</label>
+                <input id="code" inputmode="numeric" maxlength="14" placeholder="5449000000996" aria-describedby="hint">
+                <div class="bars" aria-hidden="true"></div>
+            </div>
+            <button type="submit">Tahlil qilish</button>
+        </form>
+        <div class="try" id="hint">Sinab ko'ring:
+            <button type="button" class="chip" data-c="5449000000996">Coca-Cola</button>
+            <button type="button" class="chip" data-c="3017620422003">Nutella</button>
+            <button type="button" class="chip" data-c="8076809513753">Barilla pasta</button>
+        </div>
 
-  <section id="result" aria-live="polite"></section>
-</main>
+        <section id="result" aria-live="polite"></section>
+    </main>
 
-<script>
-const $ = s => document.querySelector(s);
-const result = $('#result'), input = $('#code');
-let current = null;
+    <script>
+        const $ = s => document.querySelector(s);
+        const result = $('#result'), input = $('#code');
+        let current = null;
 
-$('#form').addEventListener('submit', e => { e.preventDefault(); search(input.value.trim()); });
-document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => { input.value = c.dataset.c; search(c.dataset.c); }));
-input.addEventListener('input', () => input.value = input.value.replace(/\D/g, ''));
+        $('#form').addEventListener('submit', e => { e.preventDefault(); search(input.value.trim()); });
+        document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => { input.value = c.dataset.c; search(c.dataset.c); }));
+        input.addEventListener('input', () => input.value = input.value.replace(/\D/g, ''));
 
-async function search(code){
-  if(!/^\d{8,14}$/.test(code)){
-    return show(`<div class="state err">Kod 8 dan 14 tagacha raqamdan iborat bo'lishi kerak. Qadoqdagi raqamlarni qayta tekshiring.</div>`);
-  }
-  const loc = getLocal()[code];
-  if(loc){ current = loc; return render(100); }
-  show(`<div class="state">Ma'lumot qidirilmoqda…</div>`);
-  try{
-    const url = `https://world.openfoodfacts.org/api/v2/product/${code}.json?fields=product_name,generic_name,brands,quantity,image_front_small_url,image_front_url,nutriments`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if(data.status !== 1 || !data.product) throw new Error('notfound');
-    const n = data.product.nutriments || {};
-    const get = k => Number(n[k + '_100g']);
-    const p = { name: data.product.product_name || data.product.generic_name || 'Nomi kiritilmagan mahsulot', brand: data.product.brands || '', qty: data.product.quantity || '',
-      img: data.product.image_front_small_url || data.product.image_front_url || '', protein: get('proteins'), fat: get('fat'), carb: get('carbohydrates'),
-      kcal: Number(n['energy-kcal_100g']) };
-    if([p.protein,p.fat,p.carb].some(isNaN)) return showNoData(p);
-    if(isNaN(p.kcal)) p.kcal = Math.round(p.protein*4 + p.carb*4 + p.fat*9);
-    current = p; render(100);
-  }catch(err){
-    const msg = err.message==='notfound' ? "Bu kod bazadan topilmadi." :
-      err.message==='nodata' ? "Mahsulot topildi, lekin oziq-ovqat qiymatlari kiritilmagan." :
-      "Internetga ulanib bo'lmadi.";
-    manualForm(code, msg, err.message!=='notfound' && err.message!=='nodata');
-  }
-}
+        async function search(code) {
+            if (!/^\d{8,14}$/.test(code)) {
+                return show(`<div class="state err">Kod 8 dan 14 tagacha raqamdan iborat bo'lishi kerak. Qadoqdagi raqamlarni qayta tekshiring.</div>`);
+            }
+            const loc = getLocal()[code];
+            if (loc) { current = loc; return render(100); }
+            show(`<div class="state">Ma'lumot qidirilmoqda…</div>`);
+            try {
+                const url = `https://world.openfoodfacts.org/api/v2/product/${code}.json?fields=product_name,generic_name,brands,quantity,image_front_small_url,image_front_url,nutriments`;
+                const res = await fetch(url);
+                const data = await res.json();
+                if (data.status !== 1 || !data.product) throw new Error('notfound');
+                const n = data.product.nutriments || {};
+                const get = k => Number(n[k + '_100g']);
+                const p = {
+                    name: data.product.product_name || data.product.generic_name || 'Nomi kiritilmagan mahsulot', brand: data.product.brands || '', qty: data.product.quantity || '',
+                    img: data.product.image_front_small_url || data.product.image_front_url || '', protein: get('proteins'), fat: get('fat'), carb: get('carbohydrates'),
+                    kcal: Number(n['energy-kcal_100g'])
+                };
+                if ([p.protein, p.fat, p.carb].some(isNaN)) return showNoData(p);
+                if (isNaN(p.kcal)) p.kcal = Math.round(p.protein * 4 + p.carb * 4 + p.fat * 9);
+                current = p; render(100);
+            } catch (err) {
+                const msg = err.message === 'notfound' ? "Bu kod bazadan topilmadi." :
+                    err.message === 'nodata' ? "Mahsulot topildi, lekin oziq-ovqat qiymatlari kiritilmagan." :
+                        "Internetga ulanib bo'lmadi.";
+                manualForm(code, msg, err.message !== 'notfound' && err.message !== 'nodata');
+            }
+        }
 
-function getLocal(){ try{ return JSON.parse(localStorage.getItem('tarkibi_db')||'{}'); }catch(e){ return {}; } }
-function saveLocal(code, item){ try{ const db=getLocal(); db[code]=item; localStorage.setItem('tarkibi_db', JSON.stringify(db)); }catch(e){} }
+        function getLocal() { try { return JSON.parse(localStorage.getItem('tarkibi_db') || '{}'); } catch (e) { return {}; } }
+        function saveLocal(code, item) { try { const db = getLocal(); db[code] = item; localStorage.setItem('tarkibi_db', JSON.stringify(db)); } catch (e) { } }
 
-function manualForm(code, msg, netErr){
-  show(`<form class="state err man" id="man">
-    <p><b>${msg}</b> ${netErr?"Internetni tekshiring yoki":"Qiymatlarni qadoq orqasidagi jadvaldan"} qo'lda kiriting — keyingi safar bu kod avtomatik topiladi.</p>
+        function manualForm(code, msg, netErr) {
+            show(`<form class="state err man" id="man">
+    <p><b>${msg}</b> ${netErr ? "Internetni tekshiring yoki" : "Qiymatlarni qadoq orqasidagi jadvaldan"} qo'lda kiriting — keyingi safar bu kod avtomatik topiladi.</p>
     <div class="grid">
       <label>Mahsulot nomi<input name="name" required></label>
       <label>Kkal (100 g)<input name="kcal" inputmode="decimal"></label>
@@ -145,32 +450,32 @@ function manualForm(code, msg, netErr){
       <label>Yog', g (100 g)<input name="fat" inputmode="decimal" required></label>
       <label>Uglevod, g (100 g)<input name="carb" inputmode="decimal" required></label>
     </div><button type="submit">Saqlash va ko'rsatish</button></form>`);
-  $('#man').addEventListener('submit', e => {
-    e.preventDefault(); const d = new FormData(e.target), n = k => parseFloat(String(d.get(k)).replace(',', '.'));
-    const it = { name: d.get('name'), brand:'', qty:'', img:'', protein:n('protein')||0, fat:n('fat')||0, carb:n('carb')||0, kcal:n('kcal') };
-    if(isNaN(it.kcal)) it.kcal = Math.round(it.protein*4 + it.carb*4 + it.fat*9);
-    saveLocal(code, it); current = it; render(100);
-  });
-}
+            $('#man').addEventListener('submit', e => {
+                e.preventDefault(); const d = new FormData(e.target), n = k => parseFloat(String(d.get(k)).replace(',', '.'));
+                const it = { name: d.get('name'), brand: '', qty: '', img: '', protein: n('protein') || 0, fat: n('fat') || 0, carb: n('carb') || 0, kcal: n('kcal') };
+                if (isNaN(it.kcal)) it.kcal = Math.round(it.protein * 4 + it.carb * 4 + it.fat * 9);
+                saveLocal(code, it); current = it; render(100);
+            });
+        }
 
-function show(html){ result.innerHTML = html; }
+        function show(html) { result.innerHTML = html; }
 
-function showNoData(p){
-  show(`<article class="card">
-    <div class="head">${p.img?`<img src="${p.img}" alt="">`:''}<div><h2>${esc(p.name)}</h2><p>${esc([p.brand,p.qty].filter(Boolean).join(' · '))}</p></div></div>
+        function showNoData(p) {
+            show(`<article class="card">
+    <div class="head">${p.img ? `<img src="${p.img}" alt="">` : ''}<div><h2>${esc(p.name)}</h2><p>${esc([p.brand, p.qty].filter(Boolean).join(' · '))}</p></div></div>
     <div class="state" style="margin-top:24px">Mahsulot topildi, lekin bazada uning oqsil, yog' va uglevod qiymatlari kiritilmagan. Qadoqdagi tarkib jadvaliga qarang.</div>
   </article>`);
-}
-const f = x => (Math.round(x*10)/10).toString().replace('.', ',');
+        }
+        const f = x => (Math.round(x * 10) / 10).toString().replace('.', ',');
 
-function render(g){
-  const p = current, k = g/100;
-  const pr = p.protein*k, ft = p.fat*k, cb = p.carb*k, total = pr+ft+cb || 1;
-  const pct = x => Math.round(x/total*100);
-  const first = !$('#plate');
-  if(first){
-    show(`<article class="card">
-      <div class="head">${p.img?`<img src="${p.img}" alt="">`:''}<div><h2>${esc(p.name)}</h2><p>${esc([p.brand,p.qty].filter(Boolean).join(' · '))}</p></div></div>
+        function render(g) {
+            const p = current, k = g / 100;
+            const pr = p.protein * k, ft = p.fat * k, cb = p.carb * k, total = pr + ft + cb || 1;
+            const pct = x => Math.round(x / total * 100);
+            const first = !$('#plate');
+            if (first) {
+                show(`<article class="card">
+      <div class="head">${p.img ? `<img src="${p.img}" alt="">` : ''}<div><h2>${esc(p.name)}</h2><p>${esc([p.brand, p.qty].filter(Boolean).join(' · '))}</p></div></div>
       <div class="kcal"><b id="kcal"></b><span>kkal</span></div>
       <div class="plate" id="plate"><i id="bp" style="background:var(--protein)"></i><i id="bf" style="background:var(--fat)"></i><i id="bc" style="background:var(--carb)"></i></div>
       <div class="macros">
@@ -182,22 +487,23 @@ function render(g){
         <input type="range" id="grams" min="10" max="500" step="5" value="100"><output id="gout" for="grams">100 g</output></div>
       <p class="note">Ma'lumot: Open Food Facts. Qiymatlar 100 g uchun berilgan, porsiyaga qarab qayta hisoblanadi.</p>
     </article>`);
-    $('#grams').addEventListener('input', e => render(+e.target.value));
-    requestAnimationFrame(() => requestAnimationFrame(() => update(pr,ft,cb,total,g)));
-  } else update(pr,ft,cb,total,g);
-}
+                $('#grams').addEventListener('input', e => render(+e.target.value));
+                requestAnimationFrame(() => requestAnimationFrame(() => update(pr, ft, cb, total, g)));
+            } else update(pr, ft, cb, total, g);
+        }
 
-function update(pr,ft,cb,total,g){
-  const pct = x => Math.round(x/total*100);
-  $('#kcal').textContent = Math.round(current.kcal*g/100);
-  $('#vp').textContent = f(pr); $('#vf').textContent = f(ft); $('#vc').textContent = f(cb);
-  $('#pp').textContent = pct(pr)+"% ushbu uchligidan"; $('#pf').textContent = pct(ft)+"% ushbu uchligidan"; $('#pc').textContent = pct(cb)+"% ushbu uchligidan";
-  $('#bp').style.width = pr/total*100+'%'; $('#bf').style.width = ft/total*100+'%'; $('#bc').style.width = cb/total*100+'%';
-  $('#gout').textContent = g+' g';
-}
-function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+        function update(pr, ft, cb, total, g) {
+            const pct = x => Math.round(x / total * 100);
+            $('#kcal').textContent = Math.round(current.kcal * g / 100);
+            $('#vp').textContent = f(pr); $('#vf').textContent = f(ft); $('#vc').textContent = f(cb);
+            $('#pp').textContent = pct(pr) + "% ushbu uchligidan"; $('#pf').textContent = pct(ft) + "% ushbu uchligidan"; $('#pc').textContent = pct(cb) + "% ushbu uchligidan";
+            $('#bp').style.width = pr / total * 100 + '%'; $('#bf').style.width = ft / total * 100 + '%'; $('#bc').style.width = cb / total * 100 + '%';
+            $('#gout').textContent = g + ' g';
+        }
+        function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
-show(`<div class="state">Natija shu yerda ko'rinadi. Kodni kiriting yoki yuqoridagi namunalardan birini tanlang.</div>`);
-</script>
+        show(`<div class="state">Natija shu yerda ko'rinadi. Kodni kiriting yoki yuqoridagi namunalardan birini tanlang.</div>`);
+    </script>
 </body>
+
 </html>
